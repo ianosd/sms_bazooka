@@ -10,7 +10,9 @@ var csv = require('jquery-csv/src/jquery.csv')
 
 var csvData = [];
 var csvHeaders = [];
+//TODO fix this
 const api_url = "https://ionutgoesforawalk.xyz:8001";
+// const api_url = "http://localhost:8001";
 
 function updateCsvView(file) {
   $("#csvStatus").html(`Fișierul ales: ${file.name}`);
@@ -99,13 +101,17 @@ function sendRequest() {
   var messages = generateMessages();
   startTransaction()
   $.ajax(`${api_url}/sms_request`, {
-    data: JSON.stringify({ messages: generateMessages() }),
+    data: JSON.stringify({ messages: generateMessages() , pwd: getPwd()}),
     dataType: "json",
     contentType: "application/json; charset=utf-8",
     method: "POST",
     success: result => { console.log("Success!"); startPolling(result.id); },
     error: () => { console.log("error"); }
   });
+}
+
+function getPwd() {
+  return $('#pwdField').val();
 }
 
 
@@ -146,7 +152,7 @@ function handleStatus(statusResponse) {
 }
 
 async function getSMSRequestStatus(requestId) {
-  return await $.get(`${api_url}/sms_request/${requestId}/status`);
+  return await hacky_post(`${api_url}/sms_request/${requestId}/status`);
 }
 
 function hacky_post(url) {
@@ -169,12 +175,12 @@ function getMessage(statusWrapper) {
 
 function checkCredit() {
   $('#creditView').html(`Se verifică...`);
-  $.get(`${api_url}/credit`).then(creditResponse => $('#creditView').html(`Mesaje rămase: <b>${creditResponse.messages}</b>`));
+  hacky_post(`${api_url}/credit`).then(creditResponse => $('#creditView').html(`Mesaje rămase: <b>${creditResponse.messages}</b>`));
 }
 
 function getAllMessagesReports() {
 
-  $.get(`${api_url}/message_reports`).then(response => {
+  hacky_post(`${api_url}/message_reports`).then(response => {
     var rep = "<tr><th>Data și ora</th><th>Trimis?</th><th>Destinatar</th><th>Conținut</th><th>Detalii eșec</th></tr>" +
     sum_map(response.message_reports, report => `<tr class="${report.sent?"sent":"not-sent"}"><td>${report.datetime}</td><td>${report.sent?"DA":"NU"}</td><td>${report.to}</td>
     <td>${report.message}</td><td>${report.sent?"":report.failure_reason}</td></tr>`)

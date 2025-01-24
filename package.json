@@ -1,0 +1,29 @@
+{
+  "name": "sms_bazooka",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "build": "webpack-cli",
+    "start:dev": "NODE_ENV=development webpack-dev-server",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-transform-runtime": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "babel-loader": "^8.2.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "css-loader": "^2.0.0",
+    "style-loader": "^0.23.0",
+    "webpack": "^4.16.0",
+    "webpack-cli": "^3.0.0",
+    "webpack-dev-server": "^3.1.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.13.10",
+    "jquery": "^3.6.0",
+    "jquery-csv": "^1.0.11",
+    "regenerator-runtime": "^0.13.7"
+  }
+}
