@@ -1,0 +1,182 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link href="https://fonts.googleapis.com/css?family=Noto+Serif+SC" rel="stylesheet">
+  <script src="bundle.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .weak-text {
+      color: #757;
+      font-style: italic;
+    }
+
+    .strong-text {
+      color: peru;
+      font-weight: bold;
+    }
+
+    html {
+      background-color: black;
+    }
+
+    body,
+    html {
+      font-family: 'Noto Serif SC', serif;
+      color: black;
+      background-color: white;
+      margin: 0;
+      padding-left: 0;
+    }
+
+    #header {
+      padding: 1em;
+      background-color: #333;
+      color: white;
+    }
+
+    button {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: medium;
+      padding:8px;
+      background-color: ghostwhite;
+      border-radius: 5px;
+    }
+
+    #header h1 {
+      margin: 0;
+      padding: 0;
+    }
+
+    #header p {
+      color: white;
+    }
+
+    #csvView {
+      margin-top:10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+    }
+
+    .root {
+      max-width: 1000px;
+      margin: auto;
+      background-color: #A7DFFF;
+      border-radius: 10px;
+    }
+
+    .content {
+      padding: 0 15px 15px 15px;
+    }
+
+    .step {
+      background-color: lightskyblue;
+      margin-top: 15px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-bottom: 10px;
+      border-radius: 10px;
+    }
+
+    #csvFileInput {
+      display: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      font-family: 'Courier New', Courier, monospace;
+      overflow: auto;
+	      width: 100%;
+		      max-height: 600px;
+		      display:inline-block;
+    }
+
+    th {
+      background-color: lightsalmon;
+    }
+
+    td, th {
+      text-align: left;
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    #csvView tr:nth-child(even){background-color: #f2f2f2;}
+
+    table {
+      background-color: white;
+    }
+    
+    tr.sent {
+      background-color: limegreen;
+    }
+
+    tr.not-sent {
+      background-color: rgb(204, 92, 52);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Add your site or application content here -->
+  <div class="root">
+    <header id="header">
+      <h1>Sms Bazooka</h1>
+    </header>
+
+    <div class="content">
+      <div class="step">
+        <h2> 1. Încărcare fișier csv </h2>
+        <!-- todo make romanian-->
+        <input id="csvFileInput" type="file" name="csvFile" />
+        <button id="loadCsvButton">Alege Fișier CSV</button>
+        <h3 id="csvStatus">Niciun fișier ales</h3>
+        <label for="numberChooser">Coloana număr telefon</label>
+        <select id="numberChooser" name="numberChooser"></select>
+        <div id="csvView"></div>
+      </div>
+      <div class="step">
+        <h2> 2. Mesaj SMS</h2>
+        <div>
+          <p class="weak-text">În mesaj se pot introduce numele coloanelor din tabel înconjurate de acolade (deci sub forma: {nume coloană}), iar acestea vor fi înlocuite pentru fiecare rând din tabel cu valoarea corespunzătoare. Ar fi bine ca numărul de caractere să nu depășească 150, pentrucă altfel taxarea se face ca pentru 2 mesaje.</p>
+          <span>Conținut SMS</span>
+	  <textarea id="messageText">V-am trimis coletul cu pomi prin FAN Courier. Ramburs: {Ramburs} lei. Puteti urmari expeditia folosind codul AWB {AWB} pe site-ul curierului: https://www.fancourier.ro/awb-tracking.&#13;&#10;Echipa paxtrans.ro.</textarea>
+        </div>
+      </div>
+      <div class="step">
+        <h2>3. Previzualizare</h2>
+        <button id="createPreviewButton">Genereaza previzualizare</button>
+        <p id="messageCountView"></p>
+        <ul id="messagePreviews"></ul>
+      </div>
+      <div class="step">
+        <h2>4. Trimitere</h2>
+        <label for="pwdField">Parola:</label>
+        <input id="pwdField" name="pwdField" type="text"><br>
+        <button id="checkCreditButton">Verificare Credit</button>
+        <p id="creditView"></p>
+        <button disabled id="sendMessagesButton">Trimite</button><span id="canNotSendExplanation" class="strong-text"></span>
+        <p id="statusMessage"></p>
+        <table id="messagesReport"></table>
+      </div>
+      <div class="step">
+        <h2>Verificare Mesaje Precedente</h2>
+        <button id="getAllMessageReports">Consultare Mesaje Precedente</button>
+        <table id="oldMessagesReport"></table>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
