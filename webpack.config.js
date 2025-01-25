@@ -1,5 +1,7 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 var webpack = require('webpack');
+require("dotenv").config();
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 process.env.CVA_PORT = process.env.CVA_PORT || 9000
@@ -40,7 +42,7 @@ const config = function (mode) {
             filename: 'bundle.js',
             publicPath: '/',
         },
-        plugins: [],
+        plugins: [new HtmlWebpackPlugin({template: "src/index.ejs"})],
         devServer: {
             watchOptions: {
                 ignored: /node_modules/
@@ -56,6 +58,7 @@ const config = function (mode) {
         conf.plugins.push(new webpack.HotModuleReplacementPlugin())
         conf.plugins.push(new webpack.NoEmitOnErrorsPlugin())
     }
+    conf.plugins.push(new webpack.DefinePlugin({"process.env.API_ENDPOINT": JSON.stringify(process.env.API_ENDPOINT)}))
 
     return conf
 }

@@ -3,16 +3,13 @@
  */
 
 import 'regenerator-runtime/runtime'
-import App from './components/app'
 import $ from 'jquery'
 var csv = require('jquery-csv/src/jquery.csv')
 
 
 var csvData = [];
 var csvHeaders = [];
-//TODO fix this
-const api_url = "https://ionutgoesforawalk.xyz:8001";
-// const api_url = "http://localhost:8001";
+const api_url = process.env.API_ENDPOINT;
 
 function updateCsvView(file) {
   $("#csvStatus").html(`Fișierul ales: ${file.name}`);
